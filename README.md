@@ -190,6 +190,9 @@ kubectl scale deployment ticket-booking-app --replicas=5
 
 ## Pipeline Screenshots
 
+### Application Screenshot
+![Application Screenshot](app.png.png)
+
 ### Jenkins Pipeline Stages
 
 1. **Checkout Stage**
