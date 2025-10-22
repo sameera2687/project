@@ -193,28 +193,28 @@ kubectl scale deployment ticket-booking-app --replicas=5
 ### Jenkins Pipeline Stages
 
 1. **Checkout Stage**
-   ![Checkout](screenshots/jenkins-checkout.png)
+   ![Checkout]
 
 2. **Build Stage**
-   ![Build](screenshots/jenkins-build.png)
+   ![Build]
 
 3. **Test Stage**
-   ![Test](screenshots/jenkins-test.png)
+   ![Test]
 
 4. **Push Stage**
-   ![Push](screenshots/jenkins-push.png)
+   ![Push]
 
 5. **Deploy Stage**
-   ![Deploy](screenshots/jenkins-deploy.png)
+   ![Deploy]
 
 ### Docker Build
 
-![Docker Build](screenshots/docker-build.png)
+![Docker Build]
 
 ### Kubernetes Deployment
 
-![Kubernetes Pods](screenshots/k8s-pods.png)
-![Kubernetes Services](screenshots/k8s-services.png)
+![Kubernetes Pods]
+![Kubernetes Services]
 
 ## Monitoring and Logging
 
