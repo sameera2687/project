@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Booking App</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    form { margin-bottom: 20px; }
+    input, button { margin: 5px; padding: 8px; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>Ticket Booking Application</h1>
+
+  <h2>Book Tickets</h2>
+  <form action="/book" method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="event" placeholder="Event" required>
+    <input type="number" name="tickets" placeholder="Number of Tickets" min="1" required>
+    <button type="submit">Book Tickets</button>
+  </form>
+
+  <h2>Bookings</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Event</th>
+        <th>Tickets</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% bookings.forEach(booking => { %>
+        <tr>
+          <td><%= booking.id %></td>
+          <td><%= booking.name %></td>
+          <td><%= booking.email %></td>
+          <td><%= booking.event %></td>
+          <td><%= booking.tickets %></td>
+          <td><%= booking.date %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>
