@@ -18,33 +18,26 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                script {
-                    def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
-                }
+                bat "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
             }
         }
 
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                script {
-                    def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
-                    dockerImage.inside {
-                        bat 'npm test'
-                    }
-                }
+                bat "docker run --rm ${DOCKER_IMAGE}:${DOCKER_TAG} npm test"
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
                 echo 'Pushing image to Docker Hub...'
-                script {
-                    def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                        dockerImage.push("${DOCKER_TAG}")
-                        dockerImage.push('latest')
-                    }
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    bat "docker login -u %DOCKER_USERNAME% -p %DOCKER_PASSWORD%"
+                    bat "docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_HUB_REPO}:${DOCKER_TAG}"
+                    bat "docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_HUB_REPO}:latest"
+                    bat "docker push ${DOCKER_HUB_REPO}:${DOCKER_TAG}"
+                    bat "docker push ${DOCKER_HUB_REPO}:latest"
                 }
             }
         }
@@ -52,10 +45,8 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 echo 'Deploying to Kubernetes...'
-                script {
-                    bat 'kubectl apply -f k8s/deployment.yaml'
-                    bat 'kubectl apply -f k8s/service.yaml'
-                }
+                bat 'kubectl apply -f k8s/deployment.yaml'
+                bat 'kubectl apply -f k8s/service.yaml'
             }
         }
     }
@@ -63,7 +54,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            bat 'docker rmi %DOCKER_IMAGE%:%DOCKER_TAG% || echo "Image cleanup failed"'
+            bat 'docker rmi %DOCKER_IMAGE%:%DOCKER_TAG% 2>nul || echo "Image cleanup failed"'
         }
         success {
             echo 'Pipeline succeeded!'
