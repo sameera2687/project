@@ -3,52 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ticket Booking App</title>
-  <style>
-    body { font-family: Arial, sans-serif; margin: 20px; }
-    form { margin-bottom: 20px; }
-    input, button { margin: 5px; padding: 8px; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-    th { background-color: #f2f2f2; }
-  </style>
+  <title>Advanced Ticket Booking System</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <h1>Ticket Booking Application</h1>
+  <div class="container">
+    <header>
+      <h1><i class="fas fa-ticket-alt"></i> Advanced Ticket Booking System</h1>
+      <p class="subtitle">Book your tickets for the best events with ease</p>
+    </header>
 
-  <h2>Book Tickets</h2>
-  <form action="/book" method="POST">
-    <input type="text" name="name" placeholder="Name" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <input type="text" name="event" placeholder="Event" required>
-    <input type="number" name="tickets" placeholder="Number of Tickets" min="1" required>
-    <button type="submit">Book Tickets</button>
-  </form>
+    <main>
+      <section class="booking-form">
+        <h2><i class="fas fa-calendar-plus"></i> Book Your Tickets</h2>
+        <form action="/book" method="POST" id="bookingForm">
+          <div class="form-group">
+            <label for="name"><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+          </div>
 
-  <h2>Bookings</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Event</th>
-        <th>Tickets</th>
-        <th>Date</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% bookings.forEach(booking => { %>
-        <tr>
-          <td><%= booking.id %></td>
-          <td><%= booking.name %></td>
-          <td><%= booking.email %></td>
-          <td><%= booking.event %></td>
-          <td><%= booking.tickets %></td>
-          <td><%= booking.date %></td>
-        </tr>
-      <% }); %>
-    </tbody>
-  </table>
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="event"><i class="fas fa-music"></i> Select Event</label>
+            <select id="event" name="event" required>
+              <option value="">Choose an event</option>
+              <option value="Concert">Concert</option>
+              <option value="Theater">Theater</option>
+              <option value="Sports">Sports</option>
+              <option value="Festival">Festival</option>
+              <option value="Workshop">Workshop</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="tickets"><i class="fas fa-users"></i> Number of Tickets</label>
+            <input type="number" id="tickets" name="tickets" placeholder="Number of tickets" min="1" max="10" required>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <i class="fas fa-paper-plane"></i> Book Now
+          </button>
+        </form>
+      </section>
+
+      <section class="bookings-list">
+        <h2><i class="fas fa-list"></i> Your Bookings</h2>
+        <div class="table-container">
+          <table id="bookingsTable">
+            <thead>
+              <tr>
+                <th><i class="fas fa-hashtag"></i> ID</th>
+                <th><i class="fas fa-user"></i> Name</th>
+                <th><i class="fas fa-envelope"></i> Email</th>
+                <th><i class="fas fa-music"></i> Event</th>
+                <th><i class="fas fa-users"></i> Tickets</th>
+                <th><i class="fas fa-calendar"></i> Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (bookings && bookings.length > 0) { %>
+                <% bookings.forEach(booking => { %>
+                  <tr>
+                    <td><%= booking.id %></td>
+                    <td><%= booking.name %></td>
+                    <td><%= booking.email %></td>
+                    <td><span class="event-badge"><%= booking.event %></span></td>
+                    <td><%= booking.tickets %></td>
+                    <td><%= booking.date %></td>
+                  </tr>
+                <% }); %>
+              <% } else { %>
+                <tr>
+                  <td colspan="6" class="no-bookings">No bookings yet. Book your first ticket above!</td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2024 Advanced Ticket Booking System. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    // Form validation and enhancement
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const event = document.getElementById('event').value;
+      const tickets = document.getElementById('tickets').value;
+
+      if (name.length < 2) {
+        alert('Please enter a valid name (at least 2 characters)');
+        e.preventDefault();
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid email address');
+        e.preventDefault();
+        return;
+      }
+
+      if (!event) {
+        alert('Please select an event');
+        e.preventDefault();
+        return;
+      }
+
+      if (tickets < 1 || tickets > 10) {
+        alert('Please select between 1 and 10 tickets');
+        e.preventDefault();
+        return;
+      }
+
+      // Show loading state
+      const submitBtn = e.target.querySelector('button[type="submit"]');
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Booking...';
+      submitBtn.disabled = true;
+    });
+
+    // Auto-refresh bookings table every 30 seconds
+    setInterval(function() {
+      location.reload();
+    }, 30000);
+  </script>
 </body>
 </html>
