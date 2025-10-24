@@ -1,4 +1,4 @@
-# Ticket Booking System - DevOps Pipeline
+# Ticket Booking Application - DevOps Pipeline
 
 This project demonstrates a complete DevOps pipeline for a Node.js ticket booking application using Git, Docker, Jenkins, and Kubernetes.
 
