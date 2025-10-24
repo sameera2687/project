@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'ticket-booking-app'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
-        DOCKER_HUB_REPO = 'your-dockerhub-username/ticket-booking-app'
+        DOCKER_HUB_REPO = 'sushmithamittapally13/ticket-booking-app'
     }
 
     stages {
@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo 'Building Docker image...'
                 script {
-                    docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
+                    def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
                 }
             }
         }
@@ -28,8 +28,9 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 script {
-                    docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").inside {
-                        sh 'npm test'
+                    def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
+                    dockerImage.inside {
+                        bat 'npm test'
                     }
                 }
             }
@@ -39,9 +40,10 @@ pipeline {
             steps {
                 echo 'Pushing image to Docker Hub...'
                 script {
+                    def dockerImage = docker.build("${DOCKER_IMAGE}:${DOCKER_TAG}")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                        docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").push()
-                        docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").push('latest')
+                        dockerImage.push("${DOCKER_TAG}")
+                        dockerImage.push('latest')
                     }
                 }
             }
@@ -51,8 +53,8 @@ pipeline {
             steps {
                 echo 'Deploying to Kubernetes...'
                 script {
-                    sh 'kubectl apply -f k8s/deployment.yaml'
-                    sh 'kubectl apply -f k8s/service.yaml'
+                    bat 'kubectl apply -f k8s/deployment.yaml'
+                    bat 'kubectl apply -f k8s/service.yaml'
                 }
             }
         }
@@ -61,7 +63,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up...'
-            sh 'docker rmi ${DOCKER_IMAGE}:${DOCKER_TAG} || true'
+            bat 'docker rmi %DOCKER_IMAGE%:%DOCKER_TAG% || echo "Image cleanup failed"'
         }
         success {
             echo 'Pipeline succeeded!'
