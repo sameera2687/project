@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'ticket-booking-app'
         DOCKER_TAG = "${env.BUILD_NUMBER}"
-        DOCKER_HUB_REPO = 'sushmithamittapally13/ticket-booking-app'
+        DOCKER_HUB_REPO = 'sam361/ticket-booking-app'
     }
 
     stages {

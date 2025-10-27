@@ -28,8 +28,8 @@ The application is a simple web-based ticket booking system built with Express.j
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd ticket-booking-app
+   git clone https://github.com/sameera2687/project.git
+   cd project
    ```
 
 2. Install dependencies:
@@ -191,33 +191,33 @@ kubectl scale deployment ticket-booking-app --replicas=5
 ## Pipeline Screenshots
 
 ### Application Screenshot
-![Application Screenshot](ss.png)
+![Application Screenshot](images/application_interface.png)
 
 ### Jenkins Pipeline Stages
 
 1. **Checkout Stage**
-   ![Checkout]
+   ![Checkout](images/jenkins_pipeline.png)
 
 2. **Build Stage**
-   ![Build]
+   ![Build](images/docker_image.png)
 
 3. **Test Stage**
-   ![Test]
+   ![Test](images/jenkins_console_output.png)
 
 4. **Push Stage**
-   ![Push]
+   ![Push](images/docker_hub_repo.png)
 
 5. **Deploy Stage**
-   ![Deploy]
+   ![Deploy](images/kubernetes.png)
 
 ### Docker Build
 
-![Docker Build]
+![Docker Build](images/docker_image.png)
 
 ### Kubernetes Deployment
 
-![Kubernetes Pods]
-![Kubernetes Services]
+![Kubernetes Pods](images/kubernetes.png)
+![Kubernetes Services](images/kubernetes.png)
 
 ## Monitoring and Logging
 

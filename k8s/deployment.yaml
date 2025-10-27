@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: ticket-booking-app
-        image: sushmithamittapally13/ticket-booking-app:latest
+        image: sam361/ticket-booking-app:latest
         ports:
         - containerPort: 3000
         env:
