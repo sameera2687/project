@@ -188,13 +188,6 @@ Scale the application by updating the replica count:
 kubectl scale deployment ticket-booking-app --replicas=5
 ```
 
-## Pipeline Screenshots
-
-Screenshots are not included in this repository. Below are descriptions of the expected outputs:
-
-### Application Screenshot
-The application interface displays a form for booking tickets with fields for name, email, event, and number of tickets.
-
 ### Jenkins Pipeline Stages
 
 1. **Checkout Stage**: Displays "Checking out code..." and successful checkout message.
