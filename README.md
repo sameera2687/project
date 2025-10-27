@@ -190,34 +190,29 @@ kubectl scale deployment ticket-booking-app --replicas=5
 
 ## Pipeline Screenshots
 
+Screenshots are not included in this repository. Below are descriptions of the expected outputs:
+
 ### Application Screenshot
-![Application Screenshot](images/application_interface.png)
+The application interface displays a form for booking tickets with fields for name, email, event, and number of tickets.
 
 ### Jenkins Pipeline Stages
 
-1. **Checkout Stage**
-   ![Checkout](images/jenkins_pipeline.png)
+1. **Checkout Stage**: Displays "Checking out code..." and successful checkout message.
 
-2. **Build Stage**
-   ![Build](images/docker_image.png)
+2. **Build Stage**: Shows "Building Docker image..." and successful build output.
 
-3. **Test Stage**
-   ![Test](images/jenkins_console_output.png)
+3. **Test Stage**: Indicates "Running tests..." and test results (npm test output).
 
-4. **Push Stage**
-   ![Push](images/docker_hub_repo.png)
+4. **Push Stage**: Logs "Pushing image to Docker Hub..." and push confirmation.
 
-5. **Deploy Stage**
-   ![Deploy](images/kubernetes.png)
+5. **Deploy Stage**: Outputs "Deploying to Kubernetes..." and deployment status.
 
 ### Docker Build
-
-![Docker Build](images/docker_image.png)
+Console output showing successful Docker build with layers and final image creation.
 
 ### Kubernetes Deployment
-
-![Kubernetes Pods](images/kubernetes.png)
-![Kubernetes Services](images/kubernetes.png)
+- kubectl get pods: Shows 3 running pods for ticket-booking-app.
+- kubectl get services: Displays LoadBalancer service with external IP.
 
 ## Monitoring and Logging
 
